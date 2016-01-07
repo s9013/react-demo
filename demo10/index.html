@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<div id="example">example</div>
+</body>
+<script src="../build/react.js"></script>
+<script src="../build/react-dom.js"></script>
+<script src="../build/browser.min.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+<script type="text/babel">
+
+// component
+var UserGist = React.createClass({
+  getInitialState: function () {
+    return {
+      username: '',
+      lastGistUrl: ''
+    };
+  },
+
+  componentDidMount: function () {
+    $.get(this.props.source, function(result) {
+      var lastGist = result[0];
+      if (this.isMounted()) {
+        this.setState({
+          username: lastGist.owner.login,
+          lastGistUrl: lastGist.html_url
+        });
+      }
+    }.bind(this));
+  },
+
+  render: function () {
+    return (
+     <div>
+        {this.state.username}'s last gist is
+        <a href={this.state.lastGistUrl}>here</a>.
+      </div>
+    );
+  }
+});
+
+ReactDOM.render(
+   <UserGist source="https://api.github.com/users/s9013/gists" />,
+  document.body
+); 
+</script>
+</html>

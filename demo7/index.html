@@ -12,15 +12,18 @@
 <script type="text/babel">
 
 // component
-var MyComponent = React.createClass({
+var LikeButton = React.createClass({
+  getInitialState: function(){
+    return {liked:false};
+  },
   handleClick: function(){
-    this.refs.myTextInput.focus();
+    this.setState({liked: !this.state.liked});
   },
   render: function() {
+    var text = this.state.liked ? 'like' : 'haven\'t liked';
      return (
-      <div>
-        <input type="text" ref="myTextInput" />
-        <input type="button" value="Focus the text input" onClick={this.handleClick} />
+      <div onClick={this.handleClick}>
+       You {text} this. Click to toggle.
       </div>
       );
    }
@@ -28,7 +31,7 @@ var MyComponent = React.createClass({
 
 
 ReactDOM.render(
-  <MyComponent  />,
+  <LikeButton  />,
   document.getElementById('example')
 );
 	  
